@@ -12,5 +12,18 @@ def receive_data():
     except Exception as error:
         return str(error), 500
 
+@app.route("/get_data", methods=["POST"])
+def get_data():
+    try:
+        with open("data.txt", "r") as file:
+            data = file.read()
+            if not data:
+                return "No data found", 404
+            return data, 200
+    except FileNotFoundError:
+        return "File not found", 404
+    except Exception as error:
+        return str(error), 500
+
 if __name__ == "__main__":
     app.run(debug=True, port=5001)
